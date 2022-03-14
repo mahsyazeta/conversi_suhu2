@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> {
               ),
               SizedBox(height: 8,),
               DropdownButton<String>(
+                onTap: perhitunganSuhu,
                 items: 
                 listSatuanSuhu.map((String value) {
                   return DropdownMenuItem<String>(
@@ -68,7 +69,6 @@ class _MyAppState extends State<MyApp> {
                 },
               ),
               SizedBox(height: 10,),
-              Text('Hasil',style: TextStyle(fontSize: 24),),
               Result(result: _result),
               SizedBox(height: 8,),
               Row(
