@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,25 +14,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _counter = 0;
-  TextEditingController etInput = TextEditingController();
-  String selectedDropdown = 'Kelvin';
-  List<String> listSatuanSuhu = ['Kelvin','Reamour','Fahrenheit'];
-  void _incrementCounter(){
+  
+  double _inputUser = 0;
+  double _kelvin = 0;
+  double _reamur = 0;
+  final inputController = TextEditingController();
+  String _newValue = 'Kelvin';
+  double _result = 0;
+  var listSatuanSuhu = ['Kelvin','Reamour','Fahrenheit'];
+
+  void perhitunganSuhu(){
     setState(() {
-      _counter++;
+      _inputUser = double.parse(inputController.text);
+
+      if (_newValue == "Kelvin") {
+        _result = _inputUser + 273;
+      } else {
+        _result = (4/5) * _inputUser;
+      }
     });
   }
 
-  void onDropdownChange(Object? value) {
-    return setState(() {
-        selectedDropdown = value.toString();
-    });
-  } 
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+   return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('Tugas 1 Jobsheet 4'),
@@ -40,35 +47,35 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children:[
               TextField(
-                controller: etInput,
                 decoration: InputDecoration(
                   labelText: 'Celcius',
                   hintText: 'enter the temperature in celcius'
                 ),
               ),
               SizedBox(height: 8,),
-              DropdownButton(
-                isExpanded: true,
-                value: selectedDropdown,
-                items: listSatuanSuhu.map((String value){
+              DropdownButton<String>(
+                items: 
+                listSatuanSuhu.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
-                  );
+                    child: Text(value),);
                 }).toList(), 
-                onChanged: (value){
-                  onDropdownChange(value);
+                value: _newValue,
+                onChanged: (value) {
+                  setState(() {
+                    _newValue = value.toString();
+                  });
                 },
               ),
               SizedBox(height: 10,),
               Text('Hasil',style: TextStyle(fontSize: 24),),
-              Text('365',style: TextStyle(fontSize: 36),),
+              Result(result: _result),
               SizedBox(height: 8,),
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: (){}, 
+                      onPressed: perhitunganSuhu, 
                       child: Text('conversi suhu')
                     ),
                   ),
@@ -82,6 +89,31 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-   
 }
+
+class Result extends StatelessWidget{
+
+  const Result({
+    Key? key,
+    required this.result,
+  }) : super(key: key);
+
+  final double result;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 20,bottom: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Hasil",style: TextStyle(fontSize: 20),),
+          Text(
+            result.toStringAsFixed(1),
+            style: TextStyle(fontSize: 30),
+          )
+        ],
+      ),
+    );
+  }
+}
+ 
