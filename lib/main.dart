@@ -14,12 +14,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int _counter = 0;
   TextEditingController etInput = TextEditingController();
-
+  String selectedDropdown = 'Kelvin';
+  List<String> listSatuanSuhu = ['Kelvin','Reamour','Fahrenheit'];
   void _incrementCounter(){
     setState(() {
       _counter++;
     });
   }
+
+  void onDropdownChange(Object? value) {
+    return setState(() {
+        selectedDropdown = value.toString();
+    });
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -42,22 +49,16 @@ class _MyAppState extends State<MyApp> {
               SizedBox(height: 8,),
               DropdownButton(
                 isExpanded: true,
-                value: 'fahrenheit',
-                items: [
-                  DropdownMenuItem(
-                    child: Text('kelvin'),
-                    value: 'kelvin',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Fahrenheit'),
-                    value: 'fahrenheit',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('reamour'),
-                    value: 'reamour',
-                  ),
-                ], 
-                onChanged: (value){},
+                value: selectedDropdown,
+                items: listSatuanSuhu.map((String value){
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(), 
+                onChanged: (value){
+                  onDropdownChange(value);
+                },
               ),
               SizedBox(height: 10,),
               Text('Hasil',style: TextStyle(fontSize: 24),),
@@ -80,5 +81,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-  }  
+  }
+
+   
 }
