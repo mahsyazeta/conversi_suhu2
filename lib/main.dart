@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:conversi_suhu2/widgets/input.dart';
+import 'package:conversi_suhu2/widgets/result.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,12 +48,7 @@ class _MyAppState extends State<MyApp> {
           margin: EdgeInsets.all(8),
           child: Column(
             children:[
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Celcius',
-                  hintText: 'enter the temperature in celcius'
-                ),
-              ),
+              input(),
               SizedBox(height: 8,),
               DropdownButton<String>(
                 onTap: perhitunganSuhu,
@@ -91,29 +88,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class Result extends StatelessWidget{
 
-  const Result({
-    Key? key,
-    required this.result,
-  }) : super(key: key);
 
-  final double result;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 20,bottom: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Hasil",style: TextStyle(fontSize: 20),),
-          Text(
-            result.toStringAsFixed(1),
-            style: TextStyle(fontSize: 30),
-          )
-        ],
-      ),
-    );
-  }
-}
+
  
